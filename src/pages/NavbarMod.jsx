@@ -1,55 +1,80 @@
 import { useEffect, useState } from "react";
 import {
+  Alert,
+  Button,
   Form,
   Col,
   Container,
   Modal,
+  Nav,
+  Navbar,
   Row,
-  Button,
-  Image,
-  Card,
   Placeholder,
-  Alert,
+  Card,
+  Image,
   Toast,
+  ToastContainer,
+  Badge,
 } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
 import { SteamData } from "../SteamData";
+import { useContext } from "react";
+import WishlistContext from "../WishlistContext";
 
-export default function Testing() {
+export default function NavbarMod() {
   const [show, setShow] = useState(false);
   const [userQuery, setUserQuery] = useState("");
-
+  const handleShow = () => {
+    setUserQuery("");
+    setShow(true);
+  };
+  const handleClose = () => setShow(false);
   const [preview, setPreview] = useState([]);
+
+  const [showToast, setShowToast] = useState(false);
+  const toggleToast = () => setShowToast(!showToast);
+  const { userWishlist, setUserWishlist } = useContext(WishlistContext);
 
   useEffect(() => {
     setPreview(SteamData.filter((game) => game.name === userQuery));
   }, [userQuery]);
 
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const handleSubmit = () => {
+    setUserWishlist([...userWishlist, { ...preview[0], id: Date.now() }]);
+    setShow(false);
+    setShowToast(!showToast);
+  };
 
-  const [showToast, setShowToast] = useState(false);
-  const toggleToast = () => setShowToast(!showToast);
   return (
     <>
-      <Container>
-        <div className="my-5 py-5">
-          <Button variant="primary" onClick={handleShow}>
-            Open modal
-          </Button>
-          <Button onClick={toggleToast}>Toggle Toast</Button>
-          <Toast show={showToast} onClose={toggleToast}>
-            <Toast.Header>
-              <strong>This is a confirmation.</strong>
-            </Toast.Header>
-            <Toast.Body>
-              <strong>Game</strong> added into the wishlist
-            </Toast.Body>
-          </Toast>
-        </div>
-      </Container>
+      <Navbar className="bg-light shadow rounded">
+        <Container>
+          <Navbar.Brand>Steam Game Wishlist</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link className="bg-black text-white" onClick={handleShow}>
+              Add
+            </Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+      <ToastContainer
+        style={{ position: "sticky" }}
+        className="p-3"
+        position="top-center"
+      >
+        <Toast bg="primary" show={showToast} onClose={toggleToast}>
+          <Toast.Header>
+            <strong className="me-auto">This is a confirmation.</strong>
+          </Toast.Header>
+          <Toast.Body className="text-white">
+            {preview[0] && preview[0].name} added into the wishlist
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
+      <Outlet />
 
+      {/*Modal Code*/}
       <Modal
-        className="bg-secondary"
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -57,7 +82,9 @@ export default function Testing() {
         onHide={handleClose}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Game</Modal.Title>
+          <Modal.Title>
+            <em>Add Game</em>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row style={{ height: "30rem" }}>
@@ -86,7 +113,7 @@ export default function Testing() {
                   </h2>
                   <small className="mb-1">
                     {preview[0].genres.map((element) => (
-                      <>{element.description} </>
+                      <Badge>{element.description} </Badge>
                     ))}
                   </small>
                   <Image className="py-3" src={preview[0].header_image} />
@@ -97,7 +124,7 @@ export default function Testing() {
             <Col>
               <Form.Control
                 className="border-black mb-4"
-                placeholder="add any game"
+                placeholder="Add any item from the listed available games"
                 value={userQuery}
                 onChange={(e) => setUserQuery(e.target.value)}
               />
@@ -175,6 +202,16 @@ export default function Testing() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          {!preview[0] && (
+            <Button variant="primary" disabled>
+              Add
+            </Button>
+          )}
+          {preview[0] && (
+            <Button variant="primary" onClick={handleSubmit}>
+              Add
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </>

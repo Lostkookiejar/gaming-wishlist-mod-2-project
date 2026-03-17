@@ -6,8 +6,8 @@ import AuthContext from "./AuthContext";
 import RequireAuth from "./components/RequireAuth";
 import useLocalStorage from "use-local-storage";
 import WishlistContext from "./WishlistContext";
-import NavbarModal from "./components/NavbarModal";
-import Testing from "./pages/testing";
+import NavbarMod from "./pages/NavbarMod";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function App() {
   const [token, setToken] = useLocalStorage("token", null);
@@ -19,7 +19,7 @@ export default function App() {
       <WishlistContext.Provider value={{ userWishlist, setUserWishlist }}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<NavbarModal />}>
+            <Route path="/" element={<NavbarMod />}>
               <Route
                 index
                 element={
@@ -29,7 +29,7 @@ export default function App() {
                 }
               />
               <Route path="/login" element={<Login />} />
-              <Route path="/testing" element={<Testing />} />
+              <Route path="/*" element={<ErrorPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

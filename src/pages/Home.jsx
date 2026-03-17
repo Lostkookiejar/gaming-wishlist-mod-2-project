@@ -17,6 +17,7 @@ import {
 } from "react-bootstrap";
 import WishlistContext from "../WishlistContext";
 import { SteamData } from "../SteamData";
+
 export default function Home() {
   const { userWishlist, setUserWishlist } = useContext(WishlistContext);
   const [showModal, setShowModal] = useState(false);
