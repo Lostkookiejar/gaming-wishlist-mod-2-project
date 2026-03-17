@@ -12,6 +12,8 @@ import {
   Modal,
   Placeholder,
   Form,
+  Toast,
+  ToastContainer,
 } from "react-bootstrap";
 import WishlistContext from "../WishlistContext";
 import { SteamData } from "../SteamData";
@@ -22,6 +24,8 @@ export default function Home() {
   const toggleModal = () => setShowModal(!showModal);
   const [stagedData, setStagedData] = useState([]);
   const [updatingId, setUpdatingId] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const toggleToast = () => setShowToast(!showToast);
 
   function getUpdateModal(name, id) {
     setUserQuery(name);
@@ -46,10 +50,25 @@ export default function Home() {
       return item;
     });
     setUserWishlist(updatedWishlist);
+    toggleToast();
     toggleModal();
   }
   return (
     <>
+      <ToastContainer
+        style={{ position: "sticky" }}
+        className="p-3"
+        position="top-center"
+      >
+        <Toast bg="info" show={showToast} onClose={toggleToast}>
+          <Toast.Header>
+            <strong className="me-auto">This is a confirmation.</strong>
+          </Toast.Header>
+          <Toast.Body className="text-white">
+            {stagedData[0] && stagedData[0].name} edited into the wishlist
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
       <Container>
         <div className="my-5 py-5">
           <Card border="dark" className="mb-5 bg-white text-white">
@@ -341,12 +360,12 @@ export default function Home() {
           </Button>
           {!stagedData[0] && (
             <Button variant="primary" disabled>
-              Add
+              Edit
             </Button>
           )}
           {stagedData[0] && (
             <Button variant="primary" onClick={() => submitEdit(stagedData[0])}>
-              Add
+              Edit
             </Button>
           )}
         </Modal.Footer>

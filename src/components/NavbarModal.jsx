@@ -24,7 +24,10 @@ import WishlistContext from "../WishlistContext";
 export default function NavbarModal() {
   const [show, setShow] = useState(false);
   const [userQuery, setUserQuery] = useState("");
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setUserQuery("");
+    setShow(true);
+  };
   const handleClose = () => setShow(false);
   const [preview, setPreview] = useState([]);
 
@@ -54,7 +57,11 @@ export default function NavbarModal() {
           </Nav>
         </Container>
       </Navbar>
-      <ToastContainer className="p-3" position="top-center">
+      <ToastContainer
+        style={{ position: "sticky" }}
+        className="p-3"
+        position="top-center"
+      >
         <Toast bg="primary" show={showToast} onClose={toggleToast}>
           <Toast.Header>
             <strong className="me-auto">This is a confirmation.</strong>
