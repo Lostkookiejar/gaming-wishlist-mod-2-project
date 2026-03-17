@@ -1,0 +1,16 @@
+Create a home page that is the index page
+1.- V if no auth token is detected, it will navigate you to the login page
+
+2.- V from the home page you can see the games being listed. if it is your first time visiting, there will be no list, 
+    except a header text and a button telling you to add a todo list
+
+3.-V add game list page asks you for the name of the game you want to enter.
+    (add a current games available list at the bottom.)
+
+4.- V adding a game and pressing the submit button creates a pop up toast that tells you the game has been uploaded.
+
+5.  will now show in the view games list
+
+6. edit button in every list that lets you re-enter the game you added
+
+7. delete button
