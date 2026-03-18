@@ -175,6 +175,7 @@ export const SteamData = [
   },
   {
     name: "Overwatch",
+    is_free: true,
     short_description:
       "Overwatch®, A FUTURE WORTH FIGHTING FOR! Overwatch® is an always-on and ever-evolving free-to-play, team-based action game set in an optimistic future, where every match is the ultimate 5v5 or 6v6 battlefield brawl.",
     header_image:

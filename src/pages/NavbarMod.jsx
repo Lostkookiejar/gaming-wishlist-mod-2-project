@@ -34,15 +34,17 @@ export default function NavbarMod() {
   const [showToast, setShowToast] = useState(false);
   const toggleToast = () => setShowToast(!showToast);
   const { userWishlist, setUserWishlist } = useContext(WishlistContext);
+  const [toastInfo, setToastInfo] = useState("");
 
   useEffect(() => {
     setPreview(SteamData.filter((game) => game.name === userQuery));
   }, [userQuery]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (gameName) => {
     setUserWishlist([...userWishlist, { ...preview[0], id: Date.now() }]);
     setShow(false);
-    setShowToast(!showToast);
+    setToastInfo(gameName);
+    setShowToast(true);
   };
 
   return (
@@ -67,7 +69,7 @@ export default function NavbarMod() {
             <strong className="me-auto">This is a confirmation.</strong>
           </Toast.Header>
           <Toast.Body className="text-white">
-            {preview[0] && preview[0].name} added into the wishlist
+            {toastInfo} added into the wishlist
           </Toast.Body>
         </Toast>
       </ToastContainer>
@@ -208,7 +210,10 @@ export default function NavbarMod() {
             </Button>
           )}
           {preview[0] && (
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button
+              variant="primary"
+              onClick={() => handleSubmit(preview[0].name)}
+            >
               Add
             </Button>
           )}

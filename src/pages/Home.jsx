@@ -27,6 +27,7 @@ export default function Home() {
   const [updatingId, setUpdatingId] = useState("");
   const [showToast, setShowToast] = useState(false);
   const toggleToast = () => setShowToast(!showToast);
+  const [toastInfo, setToastInfo] = useState("");
 
   function getUpdateModal(name, id) {
     setUserQuery(name);
@@ -44,6 +45,7 @@ export default function Home() {
   }, [userQuery]);
 
   function submitEdit(stagedData) {
+    setToastInfo(stagedData.name);
     const updatedWishlist = userWishlist.map((item) => {
       if (item.id === updatingId) {
         return stagedData;
@@ -51,7 +53,7 @@ export default function Home() {
       return item;
     });
     setUserWishlist(updatedWishlist);
-    toggleToast();
+    setShowToast(true);
     toggleModal();
   }
   return (
@@ -66,7 +68,7 @@ export default function Home() {
             <strong className="me-auto">This is a confirmation.</strong>
           </Toast.Header>
           <Toast.Body className="text-white">
-            {stagedData[0] && stagedData[0].name} edited into the wishlist
+            {toastInfo} edited into the wishlist
           </Toast.Body>
         </Toast>
       </ToastContainer>
