@@ -8,6 +8,7 @@ import useLocalStorage from "use-local-storage";
 import WishlistContext from "./WishlistContext";
 import NavbarMod from "./pages/NavbarMod";
 import ErrorPage from "./pages/ErrorPage";
+import Testing from "./pages/Testing";
 
 export default function App() {
   const [token, setToken] = useLocalStorage("token", null);
@@ -30,6 +31,7 @@ export default function App() {
               />
               <Route path="/login" element={<Login />} />
               <Route path="/*" element={<ErrorPage />} />
+              <Route path="/testing" element={<Testing />} />
             </Route>
           </Routes>
         </BrowserRouter>
